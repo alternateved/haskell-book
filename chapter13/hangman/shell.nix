@@ -14,6 +14,7 @@ in pkgs.haskell.lib.buildStackProject {
   name = "hangmanShell";
   buildInputs = nixPackages;
   shellHook = ''
+    alias stack="stack --no-nix"
     export PS1="\n\[hs:\033[1;32m\]\W\[\033[0m\] ~ "
   '';
 }
