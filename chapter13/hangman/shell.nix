@@ -5,17 +5,16 @@ let
   inherit (nixpkgs) pkgs;
   inherit (pkgs) haskellPackages;
 
-  haskellDeps = ps: with ps; [ base protolude containers ];
+  haskellTools = with haskellPackages; [ ghc ghcid cabal-install ];
 
-  ghc = haskellPackages.ghcWithPackages haskellDeps;
-  nixPackages = [ ghc pkgs.stack pkgs.gdb ];
+  haskellDeps = with haskellPackages; [ random split ];
 
-in pkgs.haskell.lib.buildStackProject {
+  allPackages = haskellTools ++ haskellDeps;
+
+in pkgs.stdenv.mkDerivation {
   name = "hangmanShell";
-  buildInputs = nixPackages;
+  buildInputs = allPackages;
   shellHook = ''
-    alias stack="stack --no-nix"
-    export PS1="\n\[hs:\033[1;32m\]\W\[\033[0m\] ~ "
+    export PS1="\[hs:\033[1;32m\]\W\[\033[0m\] ~ "
   '';
 }
-
