@@ -1,16 +1,11 @@
-{ nixpkgs ? import (fetchTarball
-  "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz") { } }:
-
 let
-  inherit (nixpkgs) pkgs;
-  inherit (pkgs) haskellPackages;
+  pkgs = import ./packages.nix { };
+  package = import ./.;
 
-  package = import ./. pkgs;
+  haskellTools = with pkgs; [ ghc ghcid cabal-install ];
 
-  haskellTools = with haskellPackages; [ ghc ghcid cabal-install ];
-
-in pkgs.stdenv.mkDerivation {
-  name = "hangmanShell";
+in pkgs.mkShell {
+  nativeBuildInputs = [ pkgs.pkg-config ];
   inputsFrom = [ package.env ];
   buildInputs = haskellTools;
   shellHook = ''
