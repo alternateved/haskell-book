@@ -13,7 +13,7 @@ let
     haskellPackages.haskell-language-server
   ];
 
-  haskellDeps = with pkgs; [ ];
+  haskellDeps = with pkgs; [ haskellPackages.hspec ];
 
 in pkgs.mkShell {
   buildInputs = haskellTools ++ haskellDeps;

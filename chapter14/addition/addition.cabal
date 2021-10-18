@@ -12,6 +12,7 @@ library
     exposed-modules:  Addition
     ghc-options:      -Wall -fwarn-tabs
     build-depends:    base ^>=4.14.3.0,
+                      QuickCheck,
                       hspec
     hs-source-dirs:   .
     default-language: Haskell2010
