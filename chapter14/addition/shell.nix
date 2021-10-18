@@ -12,7 +12,7 @@ let
     haskellPackages.haskell-language-server
   ];
 
-  haskellDeps = with pkgs; [ haskellPackages.split haskellPackages.random ];
+  haskellDeps = with pkgs; [ ];
 
 in pkgs.mkShell {
   nativeBuildInputs = [ pkgs.pkg-config ];
