@@ -21,22 +21,39 @@ myReverse l = go l []
     go (x:xs) l = go xs (x:l)
 
 squish :: [[a]] -> [a]
-squish = undefined
+squish = foldr (++) []
 
 squishMap :: (a -> [b]) -> [a] -> [b]
-squishMap = undefined
+squishMap _ [] = []
+squishMap f (x : xs) = f x ++ squishMap f xs
 
 squishAgain :: [[a]] -> [a]
-squishAgain = undefined
+squishAgain = squishMap id
 
 myMaximumBy :: (a -> a -> Ordering) -> [a] -> a
-myMaximumBy = undefined
+myMaximumBy _ (x:[]) = x
+myMaximumBy comp (x:xs) =
+  let
+    y = myMaximumBy comp xs
+  in
+    case comp x y of
+      LT -> y
+      EQ -> x
+      GT -> x
 
 myMinimumBy :: (a -> a -> Ordering) -> [a] -> a
-myMinimumBy = undefined
+myMinimumBy _ (x:[]) = x
+myMinimumBy comp (x:xs) =
+  let
+    y = myMinimumBy comp xs
+  in
+    case comp x y of
+      LT -> x
+      EQ -> x
+      GT -> y
 
-myMaximum :: Ord a => [a] -> a
-myMaximum = undefined
+myMaximum :: (Ord a) => [a] -> a
+myMaximum = myMaximumBy compare
 
-myMinimum :: Ord a => [a] -> a
-myMinimum = undefined
+myMinimum :: (Ord a) => [a] -> a
+myMinimum = myMinimumBy compare
